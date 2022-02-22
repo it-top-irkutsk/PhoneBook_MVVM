@@ -6,12 +6,20 @@
         xmlns:local="clr-namespace:PhoneBook_MVVM.App"
         xmlns:controller="clr-namespace:PhoneBook_MVVM.ViewModel;assembly=PhoneBook_MVVM.ViewModel"
         mc:Ignorable="d"
-        DataContext="{DynamicResource Controller}"
         Title="MainWindow" Height="450" Width="800">
     
-    <Window.Resources>
-        <controller:Controller x:Key="Controller"/>
-    </Window.Resources>
+    <Window.DataContext>
+        <controller:Controller/>
+    </Window.DataContext>
+    
+    <Window.CommandBindings>
+        <CommandBinding x:Name="Command_AddPerson" 
+                        Command="controller:Commands.AddPerson"
+                        Executed="Command_AddPerson_OnExecuted"/>
+        <CommandBinding x:Name="Command_DelPerson"
+                        Command="controller:Commands.DelPerson"
+                        Executed="Command_DelPerson_OnExecuted"/>
+    </Window.CommandBindings>
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,43 +45,49 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Column="1"
-                    DataContext="{Binding SelectedPerson}">
-            <StackPanel Orientation="Horizontal">
-                <Label x:Name="LabelLastName"
-                       Content="Last name"/>
-                <TextBox x:Name="InputLastName"
-                         Text="{Binding LastName}"/>
+        <StackPanel Grid.Column="1">
+            <StackPanel DataContext="{Binding SelectedPerson}">
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelLastName"
+                           Content="Last name"/>
+                    <TextBox x:Name="InputLastName"
+                             Text="{Binding LastName}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelFirstName"
+                           Content="First name"/>
+                    <TextBox x:Name="InputFirstName"
+                             Text="{Binding FirstName}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelPhone"
+                           Content="Phone"/>
+                    <TextBox x:Name="InputPhone"
+                             Text="{Binding Phone}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelEmail"
+                           Content="Email"/>
+                    <TextBox x:Name="InputEmail"
+                             Text="{Binding Email}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelAddress"
+                           Content="Address"/>
+                    <TextBox x:Name="InputAddress"
+                             Text="{Binding Address}"/>
+                </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label x:Name="LabelFirstName"
-                       Content="First name"/>
-                <TextBox x:Name="InputFirstName"
-                         Text="{Binding FirstName}"/>
+                <Button x:Name="ButtonAdd" 
+                        Content="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Text}"
+                        Command="controller:Commands.AddPerson"
+                        CommandParameter="{Binding SelectedPerson}"/>
+                <Button x:Name="ButtonDel"
+                        Command="controller:Commands.DelPerson"
+                        CommandParameter="{Binding SelectedPerson}"
+                        Content="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Text}"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label x:Name="LabelPhone"
-                       Content="Phone"/>
-                <TextBox x:Name="InputPhone"
-                         Text="{Binding Phone}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label x:Name="LabelEmail"
-                       Content="Email"/>
-                <TextBox x:Name="InputEmail"
-                         Text="{Binding Email}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label x:Name="LabelAddress"
-                       Content="Address"/>
-                <TextBox x:Name="InputAddress"
-                         Text="{Binding Address}"/>
-            </StackPanel>
-            
-            <Button x:Name="ButtonAdd" 
-                    Content="Add" 
-                    Command="{Binding Command}"
-                    CommandParameter="{Binding SelectedPerson}"/>
         </StackPanel>
     </Grid>
 </Window>

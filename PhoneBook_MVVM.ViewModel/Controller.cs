@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using PhoneBook_MVVM.Model;
 using PhoneBook_MVVM.ViewModel.Annotations;
 
@@ -21,17 +22,6 @@ namespace PhoneBook_MVVM.ViewModel
         
         public ObservableCollection<Person> Persons { get; set; }
 
-        private Commands _command;
-        public Commands Command
-        {
-            get => _command ??= new Commands(
-                o =>
-                {
-                    var person = o as Person;
-                    Persons.Add(person);
-                });
-        }
-
         public Controller()
         {
             Persons = new ObservableCollection<Person>
@@ -45,6 +35,17 @@ namespace PhoneBook_MVVM.ViewModel
                     Address = "Voronezh"
                 }
             };
+        }
+        
+        public void AddPerson(object obj)
+        {
+            var person = obj as Person;
+            Persons.Add(person);
+        }
+        public void DelPerson(object obj)
+        {
+            var person = obj as Person;
+            Persons.Remove(person);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
