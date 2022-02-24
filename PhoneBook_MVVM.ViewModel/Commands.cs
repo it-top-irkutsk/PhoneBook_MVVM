@@ -1,35 +1,24 @@
-﻿#nullable enable
-
-using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace PhoneBook_MVVM.ViewModel
 {
-    public class Commands : ICommand
+    public class Commands
     {
-        private readonly Func<object, bool> _canExecute;
-        private readonly Action<object> _execute;
+        private static readonly RoutedUICommand _add;
+        private static readonly RoutedUICommand _del;
 
-        public Commands(Action<object> execute, Func<object, bool> canExecute = null)
+        static Commands()
         {
-            _execute = execute;
-            _canExecute = canExecute;
+            var inputs_add = new InputGestureCollection();
+            inputs_add.Add(new KeyGesture(Key.Add, ModifierKeys.Control, "Ctrl + '+'"));
+            _add = new RoutedUICommand("Добавить", "AddPerson", typeof(Commands), inputs_add);
+            
+            var inputs_del = new InputGestureCollection();
+            inputs_del.Add(new KeyGesture(Key.Subtract, ModifierKeys.Control, "Ctrl + '-'"));
+            _del = new RoutedUICommand("Удалить", "DelPerson", typeof(Commands), inputs_del);
         }
 
-        public bool CanExecute(object? parameter)
-        {
-            return _canExecute == null || _canExecute(parameter);
-        }
-
-        public void Execute(object? parameter)
-        {
-            _execute(parameter);
-        }
-
-        public event EventHandler? CanExecuteChanged
-        {
-            add => CommandManager.RequerySuggested += value;
-            remove => CommandManager.RequerySuggested -= value;
-        }
+        public static RoutedUICommand AddPerson => _add;
+        public static RoutedUICommand DelPerson => _del;
     }
 }

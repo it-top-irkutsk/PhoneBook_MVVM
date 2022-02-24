@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
         <TargetFramework>net5.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\PhoneBook_MVVM.ViewModel\PhoneBook_MVVM.ViewModel.csproj" />
-      <ProjectReference Include="..\PhoneBook_MVVM.Views\PhoneBook_MVVM.Views.csproj" />
     </ItemGroup>
 
 </Project>
